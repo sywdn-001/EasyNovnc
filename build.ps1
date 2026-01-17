@@ -1,5 +1,12 @@
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
+Function Write-Info($msg) { Write-Host "[INFO] $msg" -ForegroundColor Cyan }
+Function Write-Ok($msg)   { Write-Host "[OK]   $msg" -ForegroundColor Green }
+Function Write-Warn($msg) { Write-Host "[WARN] $msg" -ForegroundColor Yellow }
+Function Write-Err($msg)  { Write-Host "[ERROR] $msg" -ForegroundColor Red }
 
 Write-Host @"
   _____                  _   _   _   _  __
@@ -8,17 +15,12 @@ Write-Host @"
  | |___| (_| |  __/\__ \ |\  | | |\  . \ 
  |_____| \__,_|\___||___/_| \_| |_| \_|\_\
 "@ -ForegroundColor Magenta
-Write-Host "EasyNovnc Setup Script" -ForegroundColor Cyan
-Write-Host "扫描磁盘 �?下载整合�?�?安装 rich �?运行配置程序" -ForegroundColor Cyan
-
-Function Write-Info($msg) { Write-Host "[INFO] $msg" -ForegroundColor Cyan }
-Function Write-Ok($msg)   { Write-Host "[OK]   $msg" -ForegroundColor Green }
-Function Write-Warn($msg) { Write-Host "[WARN] $msg" -ForegroundColor Yellow }
-Function Write-Err($msg)  { Write-Host "[ERROR] $msg" -ForegroundColor Red }
+Write-Host "EasyNovnc 安装脚本" -ForegroundColor Cyan
+Write-Host "扫描磁盘 → 下载整合包 → 安装 rich → 运行 configure_novnc.py" -ForegroundColor Cyan
 
 Write-Info "扫描本机可用磁盘"
 $drives = Get-PSDrive -PSProvider FileSystem | Where-Object { $_.Free -gt 0 }
-if (-not $drives -or $drives.Count -eq 0) { Write-Err "未发现可用磁�?; exit 1 }
+if (-not $drives -or $drives.Count -eq 0) { Write-Err "未发现可用磁盘"; exit 1 }
 
 for ($i=0; $i -lt $drives.Count; $i++) {
   $d = $drives[$i]
@@ -26,7 +28,7 @@ for ($i=0; $i -lt $drives.Count; $i++) {
   Write-Host ("  [{0}] {1}  可用 {2} GB" -f ($i+1), $d.Root, $freeGB) -ForegroundColor White
 }
 
-$sel = Read-Host "请输入要使用的磁盘编�?
+$sel = Read-Host "请输入要使用的磁盘编号"
 if (-not ($sel -as [int]) -or [int]$sel -lt 1 -or [int]$sel -gt $drives.Count) { Write-Err "选择无效"; exit 1 }
 $drive = $drives[[int]$sel - 1]
 Write-Ok ("已选择磁盘: {0}" -f $drive.Root)
@@ -61,11 +63,11 @@ try { Remove-Item $outZip -Force } catch { Write-Warn ("删除失败: {0}" -f $_
 
 Set-Location $base
 
-Write-Info "安装 rich �?
+Write-Info "安装 rich 库"
 $pyCmd = $null
 if (Get-Command py -ErrorAction SilentlyContinue) { $pyCmd = 'py -3' }
 elseif (Get-Command python -ErrorAction SilentlyContinue) { $pyCmd = 'python' }
-else { Write-Err "未找�?Python，请先安�?Python"; exit 1 }
+else { Write-Err "未找到 Python，请先安装 Python"; exit 1 }
 
 try {
   if ($pyCmd -eq 'py -3') { & py -3 -m pip install --disable-pip-version-check rich }
@@ -77,7 +79,7 @@ try {
 Write-Ok "rich 安装完成"
 
 $cfg = Join-Path $base 'configure_novnc.py'
-if (-not (Test-Path $cfg)) { Write-Err "未找�?configure_novnc.py"; exit 1 }
+if (-not (Test-Path $cfg)) { Write-Err "未找到 configure_novnc.py"; exit 1 }
 
 Write-Info "启动 configure_novnc.py"
 try {
