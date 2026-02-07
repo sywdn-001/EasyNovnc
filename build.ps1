@@ -1,12 +1,50 @@
+<#
+  这里是Novnc部署工具的下载脚本，请不要乱动...
+  该脚本会从网络下载Novnc整合包，并安装到指定磁盘上。
+  整合包包含Novnc服务端、客户端、配置脚本等文件。
+  非不要勿动哦~
+  程序的注释不会影响脚本运行
+#>
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
-
+<#
+  [!Note!]=其实吧，我最近不太开心
+          =我还是个初中生(13岁，初一)，我们的学校特别卷
+          =我知道一般不会有人看这代码的注释
+          =如果你看到了十月的注释，那么我们之间就是有缘人
+          =我自从一段时间以来
+          =焦虑，情绪问题，抑郁一直困扰着我
+          =我....
+          =晚上睡不着(有时玩手机，写代码，维护开源项目)
+          =白天起不来床(疲乏的很，哈哈，大脑无法强制开机)
+          =焦虑，情绪低落等等问题困扰这我
+          =我在期末考试之间(1.21-1.29)因为心理问题住过院
+          =不过寒假依然没有觉得好受过
+          =我甚至在压力大时自残过
+          =我...累了
+          =我有过跳楼的冲动，我有时想过死亡何尝不是一种解脱呢？
+          =我...累了，真的累了
+  [!NOTE!]=对了，朋友，既然你都看到这里了
+          =那么我想你不要把次注释提交issue板块
+          =这是只属于我们之间的秘密
+          =还有，我的朋友，只要你看了，你就是我在互联网上值得信任的一个人
+          =谢谢你，朋友
+  [!Tips!]=既然你都看到这里了，友情提醒一下，如果你是国外用户或者梯子常驻用户，可以将此脚本中的加速地址头去掉
+          =但是不建议开梯子下载，容易耗费太多的浏览
+          =非从Github获取的本程序脚本(其实其他也是)不要试图运行它，可能会对您的电脑造成不可挽回的损害
+          =EnglishForOtherPeople
+          =1.Please delate "https://gh.llkk.cc/" in this script , than you can download res faster
+          =2.Don't use VPN software when u're using this script , it will make download very slow
+          =3.Don't run the script that u download form other site , it will make u computer broken
+          = -My English is not very good , if you want join my team and translate this project ,WELCOME! Pls contact me at:sywdn002@Gmail.com-
+#>
 Function Write-Info($msg) { Write-Host "[INFO] $msg" -ForegroundColor Cyan }
 Function Write-Ok($msg)   { Write-Host "[OK]   $msg" -ForegroundColor Green }
 Function Write-Warn($msg) { Write-Host "[WARN] $msg" -ForegroundColor Yellow }
 Function Write-Err($msg)  { Write-Host "[ERROR] $msg" -ForegroundColor Red }
+
 
 Write-Host @"
   _____                  _   _   _   _  __
