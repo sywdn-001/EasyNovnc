@@ -1,7 +1,9 @@
 # EasyNovnc
-
-EasyNovnc 是一个旨在简化 **noVNC** 和 **websockify** 部署与管理的自动化工具。它提供了一个直观的交互式命令行界面（CLI），让用户能够轻松配置 VNC 代理、管理访问令牌以及一键启动服务。
-
+--------------------------
+### 引言
+###### EasyNovnc 是一个旨在简化 **noVNC** 和 **websockify** 部署与管理的自动化工具。它提供了一个直观的交互式命令行界面（CLI），让用户能够轻松配置 VNC 代理、管理访问令牌以及一键启动服务。
+###### 本程序由**13岁初一学生**开发，若有不足，欢迎各位大佬多多指教，**`多发发issues`**
+--------------------------
 ![LogoBanner.png](https://raw.githubusercontent.com/sywdn-001/EasyNovnc/refs/heads/main/LogoBanner.png)
 
 ## ✨ 特性
